@@ -4,9 +4,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.compilit</groupId>
   <artifactId>spgetti</artifactId>
-  <version>0.1.0</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
 
   <parent>
@@ -24,10 +23,78 @@
   </modules>
 
   <properties>
+    <revision>1.0.0</revision>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
+    <flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.compilit</groupId>
+        <artifactId>spgetti-api</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.compilit</groupId>
+        <artifactId>spgetti-cqrs-api</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.compilit</groupId>
+        <artifactId>spgetti-core</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.compilit</groupId>
+        <artifactId>spgetti-cqrs</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.compilit</groupId>
+        <artifactId>spgetti-spring-boot-starter</artifactId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.compilit</groupId>
+        <artifactId>spgetti-cqrs-spring-boot-starter</artifactId>
+        <version>${revision}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
+        <version>${flatten-maven-plugin.version}</version>
+        <configuration>
+          <flattenMode>
+            ossrh
+          </flattenMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>flatten</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>flatten</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

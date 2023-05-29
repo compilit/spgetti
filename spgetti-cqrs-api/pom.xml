@@ -9,13 +9,10 @@
     <version>0.1.0</version>
   </parent>
 
+  <name>Compilit - Spgetti CQ(E)RS extension API</name>
   <artifactId>spgetti-cqrs-api</artifactId>
-  <version>0.1.0</version>
-  <properties>
-    <maven.compiler.source>18</maven.compiler.source>
-    <maven.compiler.target>18</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+  <description>The API for the Spgetti CQRS mediator implementation</description>
+  <url>https://github.com/compilit/spgetti-cqr-apis</url>
 
   <dependencies>
     <dependency>

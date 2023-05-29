@@ -12,7 +12,6 @@
 
   <name>Compilit - CQ(E)RS Mediator Spring extension</name>
   <artifactId>spgetti-cqrs-spring-boot-starter</artifactId>
-  <version>0.1.0</version>
   <description>An extension for Spring to easily bootstrap the CQ(E)RS Mediator library</description>
   <url>https://github.com/compilit/compilit-commons/tree/main/cqrs-mediator-spring</url>
 
@@ -29,9 +28,9 @@
   </developers>
 
   <scm>
-    <connection>scm:git@github.com:compilit/compilit-commons.git</connection>
-    <developerConnection>scm:git@github.com:compilit/compilit-commons.git</developerConnection>
-    <url>https://github.com/compilit/compilit-commons/tree/main/compilit-commons</url>
+    <connection>scm:git@github.com:compilit/spgetti-cqrs-spring-boot-starter.git</connection>
+    <developerConnection>scm:git@github.com:compilit/spgetti-cqrs-spring-boot-starter.git</developerConnection>
+    <url>https://github.com/compilit/spgetti-cqrs-spring-boot-starter</url>
   </scm>
 
   <licenses>

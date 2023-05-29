@@ -12,9 +12,8 @@
 
   <name>Compilit - Mediator Spring extension</name>
   <artifactId>spgetti-spring-boot-starter</artifactId>
-  <version>0.1.0</version>
   <description>An extension for Spring to easily bootstrap the Mediator library</description>
-  <url>https://github.com/compilit/compilit-commons/tree/main/spgetti-spring-boot-starter</url>
+  <url>https://github.com/compilit/spgetti-spring-boot-starter</url>
 
   <properties>
     <spring-boot-dependencies.version>3.0.4</spring-boot-dependencies.version>
@@ -29,15 +28,15 @@
   </developers>
 
   <scm>
-    <connection>scm:git@github.com:compilit/compilit-commons.git</connection>
-    <developerConnection>scm:git@github.com:compilit/compilit-commons.git</developerConnection>
-    <url>https://github.com/compilit/compilit-commons/tree/main/compilit-commons</url>
+    <connection>scm:git@github.com:compilit/spgetti-spring-boot-starter.git</connection>
+    <developerConnection>scm:git@github.com:compilit/spgetti-spring-boot-starter.git</developerConnection>
+    <url>https://github.com/compilit/spgetti-spring-boot-starter</url>
   </scm>
 
   <licenses>
     <license>
       <name>MIT</name>
-      <url>https://github.com/compilit/compilit-commons/tree/main/LICENSE</url>
+      <url>https://github.com/compilit/spgetti-spring-boot-starter/tree/main/LICENSE</url>
     </license>
   </licenses>
 

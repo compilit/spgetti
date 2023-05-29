@@ -12,9 +12,8 @@
 
   <name>Compilit - CQ(E)RS mediator Core</name>
   <artifactId>spgetti-core</artifactId>
-  <version>0.1.0</version>
-  <description>An implementation of the mediator pattern while applying CQRS with added Events</description>
-  <url>https://github.com/compilit/compilit-commons/tree/main/cqrs-mediator-core</url>
+  <description>An implementation of the mediator pattern</description>
+  <url>https://github.com/compilit/spgetti-core</url>
 
   <developers>
     <developer>
