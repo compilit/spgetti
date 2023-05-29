@@ -1,0 +1,12 @@
+package com.compilit.spgetti;
+
+import com.compilit.spgetti.api.Event;
+import com.compilit.spgetti.api.Request;
+
+interface Mediator {
+
+  <T extends Request<R>, R> R mediateRequest(T request);
+
+  <T extends Event> void mediateEvent(T event, boolean async);
+
+}

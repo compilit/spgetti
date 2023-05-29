@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>spgetti</artifactId>
+    <groupId>com.compilit</groupId>
+    <version>0.1.0</version>
+  </parent>
+
+  <name>Compilit - CQ(E)RS mediator API</name>
+  <artifactId>spgetti-api</artifactId>
+  <version>0.1.0</version>
+  <description>The API for the corresponding CQ(E)RS Mediator Core library</description>
+  <url>https://github.com/compilit/compilit-commons/tree/main/cqrs-mediator-api</url>
+
+  <developers>
+    <developer>
+      <email>info@compilit.com</email>
+      <id>harveytherabbit</id>
+      <name>Bastiën Bonsel</name>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git@github.com:compilit/compilit-commons.git</connection>
+    <developerConnection>scm:git@github.com:compilit/compilit-commons.git</developerConnection>
+    <url>https://github.com/compilit/compilit-commons/tree/main/compilit-commons</url>
+  </scm>
+
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://github.com/compilit/compilit-commons/tree/main/LICENSE</url>
+    </license>
+  </licenses>
+</project>
