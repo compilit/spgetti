@@ -78,7 +78,7 @@ to do anything. The framework will take care of it all.
 
 All Handlers will automatically emit the events described in the overridden onAccepted and onFinished methods of each
 handler. If you don't override these default methods, no events shall be emitted on these life cycle hooks.
-Due to type erasure, the framework will not see any difference between TestEvent\\<One\\> and TestEvent\\<Two\\>, keep that in
+Due to type erasure, the framework will not see any difference between TestEvent\<One\> and TestEvent\<Two\>, keep that in
 mind.
 
 # cqrs-mediator-spring
