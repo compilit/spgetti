@@ -16,79 +16,7 @@ implementing this pattern. This library tries to achieve several goals:
 3. Make your code easier to test
 4. (Optionally) Help enforce CQRS. Which is more important in bigger projects
 
-### How to use
-
-For any operation, whether it is retrieving, changing or storing data, you'll write a Request<R> implementation, where R
-represents the return type. This Request<R> encapsulates the data required for the operations. The operation is an
-implementation of RequestHandler<T, R> where T is the exact implementation of the request, and R the return type.
-
-Once this RequestHandler is turned into a registered bean and you use the RequestDispatcher to dispatch your Request,
-the framework will take over an provide you with the correct return type after initiating the logic.
-
-### Without CQRS
-
-The basic API you need is the spgetti-api, which is implemented in the spgetti-core and used in the
-spgetti-spring-boot-starter. So the most basic way of using Spgetti is by grabbing that dependency and bootstrapping it
-by annotating one of your configuration classes or beans with @EnableMediator.
-
-You'll have access to a simple API consisting of a RequestDispatcher, and an
-EventEmitter. These are the only dependencies you'll ever need to inject in any of your
-classes/services that wish to interact with others. The internal Mediator will handle all of this
-interaction. The interaction takes place through the respective Requests and Events which
-are internally connected to their RequestHandler and EventHandler counterparts.
-
-### With CQRS
-
-By applying CQRS, you mildly force the programmer to split up their data-retrieving and data-altering implementations.
-This can be a powerful tool for applications that need to be scalable.
-
-If you wish to collect data from somewhere, write an implementation of a Query<ReturnType>. This query can then be
-dispatched using the registered QueryDispatcher.
-
-If you wish to mutate/add some data somewhere, write an implementation of a Command<InputData, ReturnType>. This command
-can be dispatched using the registered CommandHandler.
-
-And if you wish to notify your application that some event has occurred, write an implementation of Event and emit it
-with the registered EventEmitter.
-
-For each implemented Command, Query and Event, you need to write your own implementation of CommandHandler, QueryHandler
-and EventHandler. These must be registered beans managed by the framework.
-
-To make it a bit more clear what an implementation might look like:
-
-```java
-
-@Service
-class CreateUserCommandHandler implements CommandHandler<CreateUserCommand, UserResult> {
-
-  @Override
-  public UserResult handle(CreateUserCommand createUserCommand) {
-    (...)
-  }
-
-}
-```
-
-Other that registering your own handler implementations and dispatching your own request implementations you don't need
-to do anything. The framework will take care of it all.
-
-# Features
-
-### Automatic Events
-
-All Handlers will automatically emit the events described in the overridden onAccepted and onFinished methods of each
-handler. If you don't override these default methods, no events shall be emitted on these life cycle hooks.
-Due to type erasure, the framework will not see any difference between TestEvent\<One\> and TestEvent\<Two\>, keep that in
-mind.
-
-# cqrs-mediator-spring
-
-An implementation of the Mediator/CQERS pattern using Spring.
-
-This library is an extension of the cqrs-mediator-core/api package. It adds a convenient way to bootstrap all necessary
-objects into the Spring application context.
-
-# Installation
+### Installation
 
 First make sure you are in fact using Spring as your IOC supplier. This project depends on a provided spring-context
 dependency
@@ -97,16 +25,28 @@ Get this dependency with the latest version.
 ```xml
 
 <dependency>
-  <artifactId>cqrs-mediator-spring</artifactId>
+  <artifactId>spgetti-spring-boot-starter</artifactId>
   <groupId>com.compilit</groupId>
 </dependency>
 ```
 
-Then add the EnableMediator annotation to your project:
+Or, if you wish to use the CQRS pattern:
+
+```xml
+
+<dependency>
+  <artifactId>spgetti-cqrs-spring-boot-starter</artifactId>
+  <groupId>com.compilit</groupId>
+</dependency>
+```
+
+Then add the @EnableMediator or @EnableCqrsMediator annotation to your project:
 
 ```Java
 
 import com.compilit.spgetti.EnableCqrsMediator;
+
+@EnableMediator ||
 
 @EnableCqrsMediator
 @SpringBootApplication
@@ -119,9 +59,10 @@ public class Launcher {
 }
 ```
 
-Now all you now need to do is register QueryHandler, CommandHandler and/or EventHandler implementations.
+Now all you now need to do is register RequestHandler, EventHandler implementations (for plain Spgetti), or
+QueryHandler, CommandHandler implementations if you use CQRS.
 
-# Usage
+### Usage
 
 The Mediator pattern is about making your application loosely
 coupled. <a href="https://www.compilit.com/definitions/cqrs/">CQRS</a> is
@@ -129,36 +70,32 @@ meant to make the
 application robust and predictable by separating reading operations from writing operations.
 Combining them is quite a
 popular approach. The idea is that a Mediator is in between all requests (requests can be read or
-write requests), so
-that is no direct interaction with resources. This means that there are only 3 specific dependencies
+write requests), so there is no direct interaction with resources. This means that there are only 2 specific
+dependencies
 which connect your
-api layer to the domain layer: the CommandDispatcher, the QueryDispatcher and the EventEmitter. Why
-3 instead of just
+api layer to the domain layer: the CommandDispatcher, the QueryDispatcher. Why
+2 instead of just
 1 'Mediator' class? Because that would introduce the 'Service Locator antipattern' and defeat the
 purpose of this
-library. By having a separate interface for Commands and Queries, CQRS is enforced.
+library. By having a separate interface for Commands and Queries, CQRS is enforced. It should be noted that using direct
+implementations of RequestHandler does not mix well with the CQRS library, since a RequestHandler is both for querying
+data and for mutating it.
 
 In the com.compilit.spgetti.api package of spgetti-cqrs-api, you'll find all interfaces which you can use to write your
 own Commands and Queries, and their respective handlers.
 
 All components which a user of the API can to interact with:
 
-### Command-related
+### Request-related (when you don't use CQRS)
 
-- <b>Command:</b> a writing operation which is handled by a single handler. It provides a return
+- <b>Request:</b> a generic operation which is handled by a single handler. It provides a return
   value option to return
   an Id of a created entity for example. Or you could return
-  a <a href="https://github.com/compilit/compilit-commons/tree/main/results">Result</a>. This return value should
+  a <a href="https://github.com/compilit/resultify">Result</a>. This return value should
   never be
   filled by a reading operation.
-- <b>CommandHandler:</b> the handler for a specific Command.
-- <b>CommandDispatcher:</b> the main interactor for dispatching Commands.
-
-### Query-related
-
-- <b>Query:</b> a reading operation which is handled by a single handler.
-- <b>QueryHandler:</b> the handler for a specific Query.
-- <b>QueryDispatcher:</b> the main interactor for dispatching Queries.
+- <b>RequestHandler:</b> the handler for a specific Request.
+- <b>RequestDispatcher:</b> the main interactor for dispatching Requests.
 
 ### Event-related
 
@@ -167,6 +104,23 @@ All components which a user of the API can to interact with:
   EventHandlers.
 - <b>EventHandler:</b> the handler for a specific Event.
 - <b>EventEmitter:</b> the main interactor for emitting Events.
+
+### Command-related (when you do use CQRS)
+
+- <b>Command:</b> a writing operation which is handled by a single handler. It provides a return
+  value option to return
+  an Id of a created entity for example. Or you could return
+  a <a href="https://github.com/compilit/resultify">Result</a>. This return value should
+  never be
+  filled by a reading operation.
+- <b>CommandHandler:</b> the handler for a specific Command.
+- <b>CommandDispatcher:</b> the main interactor for dispatching Commands.
+
+### Query-related (when you do use CQRS)
+
+- <b>Query:</b> a reading operation which is handled by a single handler.
+- <b>QueryHandler:</b> the handler for a specific Query.
+- <b>QueryDispatcher:</b> the main interactor for dispatching Queries.
 
 Here is an example:
 
@@ -230,6 +184,70 @@ written object or some other kind of result. The whole point of having a separat
 class is for reading
 purposes only. This way it should be clear to the reader that some operation is only about reading
 or about writing.
+
+For any operation, whether it is retrieving, changing or storing data, you'll write a Request<R> implementation, where R
+represents the return type. This Request<R> encapsulates the data required for the operations. The operation is an
+implementation of RequestHandler<T, R> where T is the exact implementation of the request, and R the return type.
+
+Once this RequestHandler is turned into a registered bean and you use the RequestDispatcher to dispatch your Request,
+the framework will take over an provide you with the correct return type after initiating the logic.
+
+### Without CQRS
+
+The basic API you need is the spgetti-api, which is implemented in the spgetti-core and used in the
+spgetti-spring-boot-starter. So the most basic way of using Spgetti is by grabbing that dependency and bootstrapping it
+by annotating one of your configuration classes or beans with @EnableMediator.
+
+You'll have access to a simple API consisting of a RequestDispatcher, and an
+EventEmitter. These are the only dependencies you'll ever need to inject in any of your
+classes/services that wish to interact with others. The internal Mediator will handle all of this
+interaction. The interaction takes place through the respective Requests and Events which
+are internally connected to their RequestHandler and EventHandler counterparts.
+
+### With CQRS
+
+By applying CQRS, you mildly force the programmer to split up their data-retrieving and data-altering implementations.
+This can be a powerful tool for applications that need to be scalable.
+
+If you wish to collect data from somewhere, write an implementation of a Query<ReturnType>. This query can then be
+dispatched using the registered QueryDispatcher.
+
+If you wish to mutate/add some data somewhere, write an implementation of a Command<InputData, ReturnType>. This command
+can be dispatched using the registered CommandHandler.
+
+And if you wish to notify your application that some event has occurred, write an implementation of Event and emit it
+with the registered EventEmitter.
+
+For each implemented Command, Query and Event, you need to write your own implementation of CommandHandler, QueryHandler
+and EventHandler. These must be registered beans managed by the framework.
+
+To make it a bit more clear what an implementation might look like:
+
+```java
+
+@Service
+class CreateUserCommandHandler implements CommandHandler<CreateUserCommand, UserResult> {
+
+  @Override
+  public UserResult handle(CreateUserCommand createUserCommand) {
+    (...)
+  }
+
+}
+```
+
+Other that registering your own handler implementations and dispatching your own request implementations you don't need
+to do anything. The framework will take care of it all.
+
+## Features
+
+### Automatic Events
+
+All Handlers will automatically emit the events described in the overridden onAccepted and onFinished methods of each
+handler. If you don't override these default methods, no events shall be emitted on these life cycle hooks.
+Due to type erasure, the framework will not see any difference between TestEvent\<One\> and TestEvent\<Two\>, keep that
+in
+mind.
 
 
 
