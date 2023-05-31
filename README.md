@@ -16,6 +16,15 @@ implementing this pattern. This library tries to achieve several goals:
 3. Make your code easier to test
 4. (Optionally) Help enforce CQRS. Which is more important in bigger projects
 
+### How to use
+
+For any operation, whether it is retrieving, changing or storing data, you'll write a Request<R> implementation, where R
+represents the return type. This Request<R> encapsulates the data required for the operations. The operation is an
+implementation of RequestHandler<T, R> where T is the exact implementation of the request, and R the return type.
+
+Once this RequestHandler is turned into a registered bean and you use the RequestDispatcher to dispatch your Request,
+the framework will take over an provide you with the correct return type after initiating the logic.
+
 ### Without CQRS
 
 The basic API you need is the spgetti-api, which is implemented in the spgetti-core and used in the
@@ -27,15 +36,6 @@ EventEmitter. These are the only dependencies you'll ever need to inject in any 
 classes/services that wish to interact with others. The internal Mediator will handle all of this
 interaction. The interaction takes place through the respective Requests and Events which
 are internally connected to their RequestHandler and EventHandler counterparts.
-
-# How to use
-
-For any operation, whether it is retrieving, changing or storing data, you'll write a Request<R> implementation, where R
-represents the return type. This Request<R> encapsulates the data required for the operations. The operation is an
-implementation of RequestHandler<T, R> where T is the exact implementation of the request, and R the return type.
-
-Once this RequestHandler is turned into a registered bean and you use the RequestDispatcher to dispatch your Request,
-the framework will take over an provide you with the correct return type after initiating the logic.
 
 ### With CQRS
 
@@ -78,7 +78,7 @@ to do anything. The framework will take care of it all.
 
 All Handlers will automatically emit the events described in the overridden onAccepted and onFinished methods of each
 handler. If you don't override these default methods, no events shall be emitted on these life cycle hooks.
-Due to type erasure, the framework will not see any difference between TestEvent<One> and TestEvent<Two>, keep that in
+Due to type erasure, the framework will not see any difference between TestEvent\\<One\\> and TestEvent\\<Two\\>, keep that in
 mind.
 
 # cqrs-mediator-spring
