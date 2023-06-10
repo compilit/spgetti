@@ -4,7 +4,7 @@ import java.util.concurrent.Future;
 
 /**
  * A CommandDispatcher is a dedicated interface for sending Commands to the Mediator. A Mediator should never be
- * interacted with directly because you could never truly know that your code complies with CQERS.
+ * interacted with directly because you could never truly know that your code complies with CQRS.
  *
  * @see Command
  */

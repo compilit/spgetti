@@ -7,6 +7,7 @@ package com.compilit.spgetti.api;
  * @param <R> The return type of the Query.
  */
 public interface QueryHandler<T extends Query<R>, R> extends RequestHandler<T, R> {
+
   @Override
   R handle(T query);
 }

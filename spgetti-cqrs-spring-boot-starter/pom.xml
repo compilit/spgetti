@@ -1,60 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <artifactId>spgetti</artifactId>
-    <groupId>com.compilit</groupId>
-    <version>0.1.0</version>
-  </parent>
-
-  <name>Compilit - CQ(E)RS Mediator Spring extension</name>
   <artifactId>spgetti-cqrs-spring-boot-starter</artifactId>
-  <description>An extension for Spring to easily bootstrap the CQ(E)RS Mediator library</description>
-  <url>https://github.com/compilit/compilit-commons/tree/main/cqrs-mediator-spring</url>
-
-  <properties>
-    <spring-boot-dependencies.version>3.0.4</spring-boot-dependencies.version>
-  </properties>
-
-  <developers>
-    <developer>
-      <email>info@compilit.com</email>
-      <id>harveytherabbit</id>
-      <name>Bastiën Bonsel</name>
-    </developer>
-  </developers>
-
-  <scm>
-    <connection>scm:git@github.com:compilit/spgetti-cqrs-spring-boot-starter.git</connection>
-    <developerConnection>scm:git@github.com:compilit/spgetti-cqrs-spring-boot-starter.git</developerConnection>
-    <url>https://github.com/compilit/spgetti-cqrs-spring-boot-starter</url>
-  </scm>
-
-  <licenses>
-    <license>
-      <name>MIT</name>
-      <url>https://github.com/compilit/compilit-commons/tree/main/LICENSE</url>
-    </license>
-  </licenses>
 
   <dependencies>
     <dependency>
-      <groupId>com.compilit</groupId>
       <artifactId>spgetti-cqrs-api</artifactId>
-      <version>0.1.0</version>
+      <groupId>com.compilit</groupId>
     </dependency>
     <dependency>
-      <groupId>com.compilit</groupId>
       <artifactId>spgetti-cqrs</artifactId>
-      <version>0.1.0</version>
+      <groupId>com.compilit</groupId>
     </dependency>
     <dependency>
-      <groupId>com.compilit</groupId>
       <artifactId>spgetti-spring-boot-starter</artifactId>
-      <version>0.1.0</version>
+      <groupId>com.compilit</groupId>
     </dependency>
     <dependency>
       <artifactId>spring-context</artifactId>
@@ -62,11 +23,10 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.compilit</groupId>
       <artifactId>spgetti-core</artifactId>
-      <version>0.1.0</version>
-      <type>test-jar</type>
+      <groupId>com.compilit</groupId>
       <scope>test</scope>
+      <type>test-jar</type>
     </dependency>
     <dependency>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -76,9 +36,8 @@
 
     <!-- Java extensions -->
     <dependency>
-      <groupId>jakarta.inject</groupId>
       <artifactId>jakarta.inject-api</artifactId>
-      <version>2.0.1</version>
+      <groupId>jakarta.inject</groupId>
     </dependency>
   </dependencies>
 
@@ -93,5 +52,41 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
+  <description>An extension for Spring to easily bootstrap the CQRS Mediator library</description>
+  <developers>
+    <developer>
+      <email>info@compilit.com</email>
+      <id>harveytherabbit</id>
+      <name>Bastiën Bonsel</name>
+    </developer>
+  </developers>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>${project-licence.url}</url>
+    </license>
+  </licenses>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>Compilit - Spgetti Mediator + CQRS Spring extension</name>
+
+  <parent>
+    <artifactId>spgetti</artifactId>
+    <groupId>com.compilit</groupId>
+    <version>${revision}</version>
+  </parent>
+
+  <properties>
+    <spring-boot-dependencies.version>3.0.4</spring-boot-dependencies.version>
+  </properties>
+
+  <scm>
+    <connection>scm:git@github.com:compilit/spgetti/spgetti.git</connection>
+    <developerConnection>scm:git@github.com:compilit/spgetti/spgetti.git</developerConnection>
+    <url>${project.url}</url>
+  </scm>
+
+  <url>https://github.com/compilit/spgetti/tree/main/spgetti-cqrs-spring-boot-starter</url>
 
 </project>

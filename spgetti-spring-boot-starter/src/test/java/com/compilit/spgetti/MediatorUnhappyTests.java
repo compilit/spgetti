@@ -1,5 +1,6 @@
 package com.compilit.spgetti;
 
+import com.compilit.narcissus.Reflection;
 import com.compilit.spgetti.api.RequestDispatcher;
 import com.compilit.spgetti.testutil.SideEffectContext;
 import com.compilit.spgetti.testutil.TestRequest;
@@ -23,18 +24,20 @@ class MediatorUnhappyTests {
 
   @Test
   void dispatch_multipleEqualCommands_shouldThrowException() {
-    var testCommand = new IdentifiableRequest<>(new TestRequest1());
-    Assertions.assertThatThrownBy(() -> requestDispatcher.dispatch(testCommand.innerRequest()))
+    var testCommand = new TestRequest1();
+    var testCommandReflection = Reflection.of(testCommand);
+    Assertions.assertThatThrownBy(() -> requestDispatcher.dispatch(testCommand))
               .isInstanceOf(MediatorException.class)
-              .hasMessage(ExceptionMessages.multipleHandlersRegisteredMessage(testCommand.getIdentifier().get()));
+              .hasMessage(ExceptionMessages.multipleHandlersRegisteredMessage(testCommandReflection.getClassName()));
   }
 
   @Test
   void dispatch_multipleEqualQueries_shouldThrowException() {
-    var testQuery = new IdentifiableRequest<>(new TestRequest());
-    Assertions.assertThatThrownBy(() -> requestDispatcher.dispatch(testQuery.innerRequest()))
+    var testQuery = new TestRequest1();
+    var testQueryReflection = Reflection.of(testQuery);
+    Assertions.assertThatThrownBy(() -> requestDispatcher.dispatch(testQuery))
               .isInstanceOf(MediatorException.class)
-              .hasMessage(ExceptionMessages.multipleHandlersRegisteredMessage(testQuery.getIdentifier().get()));
+              .hasMessage(ExceptionMessages.multipleHandlersRegisteredMessage(testQueryReflection.getClassName()));
   }
 
 }

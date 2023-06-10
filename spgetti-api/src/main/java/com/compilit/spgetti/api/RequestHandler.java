@@ -29,8 +29,8 @@ public interface RequestHandler<T extends Request<R>, R> {
   }
 
   /**
-   * A factory method to create the event which will be emitted upon handling of the request. Overriding this
-   * method will allow you to specify custom events to be emitted for certain life cycle hooks.
+   * A factory method to create the event which will be emitted upon handling of the request. Overriding this method
+   * will allow you to specify custom events to be emitted for certain life cycle hooks.
    *
    * @param request the request that was handled
    * @param result  the returned value of the handler, or null

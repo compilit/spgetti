@@ -2,18 +2,9 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <artifactId>spgetti</artifactId>
-    <groupId>com.compilit</groupId>
-    <version>0.1.0</version>
-  </parent>
-
-  <name>Compilit - Spgetti mediator API</name>
   <artifactId>spgetti-api</artifactId>
+
   <description>The API for the corresponding Spgetti Core library</description>
-  <url>https://github.com/compilit/spgetti-api</url>
 
   <developers>
     <developer>
@@ -22,17 +13,26 @@
       <name>Bastiën Bonsel</name>
     </developer>
   </developers>
-
-  <scm>
-    <connection>scm:git@github.com:compilit/compilit-commons.git</connection>
-    <developerConnection>scm:git@github.com:compilit/compilit-commons.git</developerConnection>
-    <url>https://github.com/compilit/compilit-commons/tree/main/compilit-commons</url>
-  </scm>
-
   <licenses>
     <license>
       <name>MIT</name>
-      <url>https://github.com/compilit/compilit-commons/tree/main/LICENSE</url>
+      <url>${project-licence.url}</url>
     </license>
   </licenses>
+  <modelVersion>4.0.0</modelVersion>
+  <name>Compilit - Spgetti Mediator API</name>
+
+  <parent>
+    <artifactId>spgetti</artifactId>
+    <groupId>com.compilit</groupId>
+    <version>${revision}</version>
+  </parent>
+
+  <scm>
+    <connection>scm:git@github.com:compilit/spgetti/spgetti.git</connection>
+    <developerConnection>scm:git@github.com:compilit/spgetti/spgetti.git</developerConnection>
+    <url>${project.url}</url>
+  </scm>
+
+  <url>https://github.com/compilit/spgetti/tree/main/spgetti-api</url>
 </project>

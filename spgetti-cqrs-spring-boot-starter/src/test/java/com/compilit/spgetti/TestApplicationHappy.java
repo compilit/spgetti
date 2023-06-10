@@ -14,10 +14,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication(scanBasePackages = "com.compilit.spgetti.testutil")
 public class TestApplicationHappy {
 
-  public static void main(String[] args) {
-    SpringApplication.run(TestApplicationHappy.class);
-  }
-
   @Bean
   public CommandHandler<TestCommand1, TestObject> createTestCommandHandler() {
     return new TestCommandHandler1();
@@ -41,5 +37,9 @@ public class TestApplicationHappy {
   @Bean
   public EventHandler<TestEvent> createTestEventHandler2() {
     return new TestEventHandler();
+  }
+
+  public static void main(String[] args) {
+    SpringApplication.run(TestApplicationHappy.class);
   }
 }

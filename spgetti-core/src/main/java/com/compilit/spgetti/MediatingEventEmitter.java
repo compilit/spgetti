@@ -4,7 +4,7 @@ import com.compilit.spgetti.api.Event;
 import com.compilit.spgetti.api.EventEmitter;
 
 
-final class MediatingEventEmitter implements EventEmitter {
+public class MediatingEventEmitter implements EventEmitter {
 
   private final Mediator mediator;
 
@@ -12,22 +12,29 @@ final class MediatingEventEmitter implements EventEmitter {
     this.mediator = mediator;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void emit(Event event, Event... events) {
-    mediator.mediateEvent(event, false);
-    if (event != null) {
-      for (var e : events) {
-        mediator.mediateEvent(e, false);
-      }
-    }
+    emit(false, event, events);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void emitAsync(Event event, Event... events) {
-    mediator.mediateEvent(event, true);
+    emit(true, event, events);
+  }
+
+  private void emit(boolean async, Event event, Event[] events) {
+    var eventReflection = Reflection.of(event);
+    mediator.mediateEvent(eventReflection, async);
     if (event != null) {
       for (var e : events) {
-        mediator.mediateEvent(e, true);
+        var eReflection = Reflection.of(e);
+        mediator.mediateEvent(eReflection, async);
       }
     }
   }

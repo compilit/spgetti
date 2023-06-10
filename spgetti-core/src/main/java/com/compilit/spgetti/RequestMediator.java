@@ -28,13 +28,19 @@ final class RequestMediator implements Mediator {
   }
 
   @Override
-  public <T extends Request<R>, R> R mediateRequest(T request) {
-    RequestHandler<Request<R>, R> handler = requestHandlerManager.getRequestHandler(request, handlerMatcher);
-    return applyHandler(request, handler, false);
+  public <T extends Request<R>, R> R mediateRequest(Reflection<T> requestReflection) {
+    var requestHandlers = requestHandlerManager.getRequestHandlers(
+      requestReflection,
+      handlerMatcher,
+      new SingleMatchValidationStrategy()
+    );
+    var matchingRequestHandler = requestHandlers.get(0);
+    Reflection<RequestHandler<T, R>> handlerReflection = Reflection.of(matchingRequestHandler);
+    return applyHandler(requestReflection, handlerReflection, false);
   }
 
   @Override
-  public <T extends Event> void mediateEvent(T event, boolean async) {
+  public <T extends Event> void mediateEvent(Reflection<T> event, boolean async) {
     if (async) {
       executorService.submit(() -> handleEvent(event, true));
     } else {
@@ -42,28 +48,41 @@ final class RequestMediator implements Mediator {
     }
   }
 
-  private <T extends Event> void handleEvent(T event, boolean asyncNestedEvents) {
-    var requestIdentifier = new IdentifiableRequest<>(event).getIdentifier();
-    logger.info("Emitting {}", requestIdentifier);
-    requestHandlerManager.getEventHandlers(event, handlerMatcher)
-                       .forEach(handler -> applyHandler((Request<?>) event, (RequestHandler) handler, asyncNestedEvents));
+  private <T extends Event> void handleEvent(Reflection<T> eventReflection, boolean asyncNestedEvents) {
+    logger.info("Emitting {}", eventReflection.getClassSignature());
+    var requestHandlers = requestHandlerManager.getRequestHandlers(
+      eventReflection,
+      handlerMatcher,
+      new NoMatchValidationStrategy()
+    );
+    for (var requestHandler : requestHandlers) {
+      Reflection<RequestHandler<T, Void>> handlerReflection = Reflection.of(requestHandler);
+      applyHandler(eventReflection, handlerReflection, asyncNestedEvents);
+    }
   }
 
-  private <T extends Request<R>, R> R applyHandler(T request, RequestHandler<T, R> handler, boolean asyncNestedEvents) {
-    var requestIdentifier = new IdentifiableRequest<>(request).getIdentifier();
-    var handleIdentifier = new IdentifiableRequestHandler<>(handler).getIdentifier();
-    logger.info("Handling {} using {}", requestIdentifier, handleIdentifier);
+  private <T extends Request<R>, R> R applyHandler(Reflection<T> requestReflection,
+                                                   Reflection<RequestHandler<T, R>> handlerReflection,
+                                                   boolean asyncNestedEvents) {
+    var request = requestReflection.getSubject();
+    var handler = handlerReflection.getSubject();
+    logger.info("Handling {} using {}", requestReflection.getClassSignature(), handlerReflection.getClassSignature());
     emit(handler.onAccepted(request), request, asyncNestedEvents);
     var result = handler.handle(request);
     var resultName = result != null ? result.getClass() : "Void";
-    logger.info("Handler {} returned {} for {}", handleIdentifier, resultName, requestIdentifier);
+    logger.info(
+      "Handler {} returned {} for {}",
+      handlerReflection.getClassSignature(),
+      resultName,
+      requestReflection.getClassSignature()
+    );
     emit(handler.onHandled(request, result), request, asyncNestedEvents);
     return result;
   }
 
   private <T extends Request<?>> void emit(Event eventToEmit, T request, boolean asyncNestedEvents) {
     if (!(request instanceof Event) && eventToEmit != null) {
-      mediateEvent(eventToEmit, asyncNestedEvents);
+      mediateEvent(Reflection.of(eventToEmit), asyncNestedEvents);
     }
   }
 

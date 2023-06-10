@@ -14,7 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class HandlerPredicateTest {
+class CoreHandlerMatcherTest {
 
   public static Stream<Arguments> validTestCases() {
     return Stream.of(
@@ -35,14 +35,14 @@ class HandlerPredicateTest {
   @ParameterizedTest
   @MethodSource("validTestCases")
   void handlersMatchingRequest_validMatch_shouldReturnTrue(Request request, RequestHandler<?, ?> requestHandler) {
-    Assertions.assertThat(new IdentifiableRequestHandler<>(requestHandler).canHandle(new IdentifiableRequest<>(request)))
+    Assertions.assertThat(new CoreHandlerMatcher().canHandle(requestHandler, request))
               .isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("invalidTestCases")
   void handlersMatchingRequest_invalidMatch_shouldReturnFalse(Request request, RequestHandler<?, ?> requestHandler) {
-    Assertions.assertThat(new IdentifiableRequestHandler<>(requestHandler).canHandle(new IdentifiableRequest<>(request)))
+    Assertions.assertThat(new CoreHandlerMatcher().canHandle(requestHandler, request))
               .isFalse();
   }
 }

@@ -1,77 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
   <artifactId>spgetti</artifactId>
-  <version>${revision}</version>
-  <packaging>pom</packaging>
-
-  <parent>
-    <artifactId>compilit-parent</artifactId>
-    <groupId>com.compilit</groupId>
-    <version>1.4.0</version>
-  </parent>
-
-  <modules>
-    <module>spgetti-cqrs</module>
-    <module>spgetti-cqrs-api</module>
-    <module>spgetti-api</module>
-    <module>spgetti-core</module>
-    <module>spgetti-spring-boot-starter</module>
-  </modules>
-
-  <properties>
-    <revision>1.0.0</revision>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
-    <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
-    <flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.compilit</groupId>
-        <artifactId>spgetti-api</artifactId>
-        <version>${revision}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.compilit</groupId>
-        <artifactId>spgetti-cqrs-api</artifactId>
-        <version>${revision}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.compilit</groupId>
-        <artifactId>spgetti-core</artifactId>
-        <version>${revision}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.compilit</groupId>
-        <artifactId>spgetti-cqrs</artifactId>
-        <version>${revision}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.compilit</groupId>
-        <artifactId>spgetti-spring-boot-starter</artifactId>
-        <version>${revision}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.compilit</groupId>
-        <artifactId>spgetti-cqrs-spring-boot-starter</artifactId>
-        <version>${revision}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
-        <version>${flatten-maven-plugin.version}</version>
         <configuration>
           <flattenMode>
             ossrh
@@ -79,22 +15,106 @@
         </configuration>
         <executions>
           <execution>
-            <id>flatten</id>
-            <phase>process-resources</phase>
             <goals>
               <goal>flatten</goal>
             </goals>
+            <id>flatten</id>
+            <phase>process-resources</phase>
           </execution>
           <execution>
-            <id>flatten.clean</id>
-            <phase>clean</phase>
             <goals>
               <goal>clean</goal>
             </goals>
+            <id>flatten.clean</id>
+            <phase>clean</phase>
           </execution>
         </executions>
+        <groupId>org.codehaus.mojo</groupId>
+        <version>${flatten-maven-plugin.version}</version>
       </plugin>
     </plugins>
   </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <artifactId>spgetti-api</artifactId>
+        <groupId>com.compilit</groupId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <artifactId>spgetti-cqrs-api</artifactId>
+        <groupId>com.compilit</groupId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <artifactId>spgetti-core</artifactId>
+        <groupId>com.compilit</groupId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <artifactId>spgetti-core</artifactId>
+        <groupId>com.compilit</groupId>
+        <type>test-jar</type>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <artifactId>spgetti-cqrs</artifactId>
+        <groupId>com.compilit</groupId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <artifactId>spgetti-spring-boot-starter</artifactId>
+        <groupId>com.compilit</groupId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <artifactId>spgetti-cqrs-spring-boot-starter</artifactId>
+        <groupId>com.compilit</groupId>
+        <version>${revision}</version>
+      </dependency>
+      <dependency>
+        <artifactId>jakarta.inject-api</artifactId>
+        <groupId>jakarta.inject</groupId>
+        <version>${jakarta.inject-api.version}</version>
+      </dependency>
+      <dependency>
+        <artifactId>slf4j-api</artifactId>
+        <groupId>org.slf4j</groupId>
+        <version>${slf4j-api.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <modelVersion>4.0.0</modelVersion>
+
+  <modules>
+    <module>spgetti-cqrs</module>
+    <module>spgetti-cqrs-api</module>
+    <module>spgetti-api</module>
+    <module>spgetti-core</module>
+    <module>spgetti-spring-boot-starter</module>
+    <module>spgetti-cqrs-spring-boot-starter</module>
+  </modules>
+
+  <packaging>pom</packaging>
+
+  <parent>
+    <artifactId>compilit-parent</artifactId>
+    <groupId>com.compilit</groupId>
+    <version>1.4.1</version>
+  </parent>
+
+  <properties>
+    <flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+    <jakarta.inject-api.version>2.0.1</jakarta.inject-api.version>
+    <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project-licence.url>https://github.com/compilit/spgetti/tree/main/LICENSE</project-licence.url>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <revision>1.0.0</revision>
+    <slf4j-api.version>2.0.6</slf4j-api.version>
+  </properties>
+
+  <version>${revision}</version>
 
 </project>

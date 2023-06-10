@@ -4,7 +4,7 @@ import java.util.concurrent.Future;
 
 /**
  * A QueryDispatcher is a dedicated interface for sending Queries to the Mediator. A Mediator should never be interacted
- * with directly because you could never truly know that your code complies with CQERS.
+ * with directly because you could never truly know that your code complies with CQRS.
  *
  * @see Query
  */

@@ -1,11 +1,15 @@
 package com.compilit.spgetti;
 
+import com.compilit.narcissus.Reflection;
 import com.compilit.spgetti.api.Command;
 import com.compilit.spgetti.api.CommandDispatcher;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
-final class MediatingCommandDispatcher implements CommandDispatcher {
+/**
+ * {@inheritDoc}
+ */
+public class MediatingCommandDispatcher implements CommandDispatcher {
 
   private final Mediator mediator;
 
@@ -13,11 +17,18 @@ final class MediatingCommandDispatcher implements CommandDispatcher {
     this.mediator = mediator;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public <T> T dispatch(Command<T> command) {
-    return mediator.mediateRequest(command);
+    var commandReflection = Reflection.of(command);
+    return mediator.mediateRequest(commandReflection);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public <T> Future<T> dispatchAsync(Command<T> command) {
     return CompletableFuture.supplyAsync(() -> dispatch(command));

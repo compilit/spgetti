@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.compilit</groupId>
-    <artifactId>spgetti</artifactId>
-    <version>0.1.0</version>
-  </parent>
-
-  <name>Compilit - Spgetti CQ(E)RS extension</name>
   <artifactId>spgetti-cqrs</artifactId>
-  <description>An implementation of the mediator pattern while applying CQRS</description>
-  <url>https://github.com/compilit/spgetti-cqrs</url>
+  <dependencies>
+    <dependency>
+      <artifactId>spgetti-cqrs-api</artifactId>
+      <groupId>com.compilit</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>spgetti-core</artifactId>
+      <groupId>com.compilit</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>spgetti-core</artifactId>
+      <groupId>com.compilit</groupId>
+      <type>test-jar</type>
+    </dependency>
+  </dependencies>
 
+  <description>An implementation of the mediator pattern while applying CQRS</description>
   <developers>
     <developer>
       <email>info@compilit.com</email>
@@ -21,23 +27,27 @@
       <name>Bastiën Bonsel</name>
     </developer>
   </developers>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>${project-licence.url}</url>
+    </license>
+  </licenses>
+  <modelVersion>4.0.0</modelVersion>
 
-  <dependencies>
-    <dependency>
-      <groupId>com.compilit</groupId>
-      <artifactId>spgetti-cqrs-api</artifactId>
-      <version>0.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.compilit</groupId>
-      <artifactId>spgetti-core</artifactId>
-      <version>0.1.0</version>
-    </dependency>
-    <dependency>
-      <groupId>com.compilit</groupId>
-      <artifactId>spgetti-core</artifactId>
-      <type>test-jar</type>
-      <version>0.1.0</version>
-    </dependency>
-  </dependencies>
+  <name>Compilit - Spgetti Mediator + CQRS extension</name>
+
+  <parent>
+    <artifactId>spgetti</artifactId>
+    <groupId>com.compilit</groupId>
+    <version>${revision}</version>
+  </parent>
+
+  <scm>
+    <connection>scm:git@github.com:compilit/spgetti.git</connection>
+    <developerConnection>scm:git@github.com:compilit/spgetti/spgetti.git</developerConnection>
+    <url>${project.url}</url>
+  </scm>
+
+  <url>https://github.com/compilit/spgetti/tree/main/spgetti-cqrs</url>
 </project>

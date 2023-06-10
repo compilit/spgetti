@@ -2,6 +2,9 @@ package com.compilit.spgetti;
 
 final class ExceptionMessages {
 
+  public static final String HANDLER_NOT_FOUND = "Failed to find matching handler.";
+  public static final String MULTIPLE_MATCHING_HANDLERS = "A handler for this request is already registered, only Events can have multiple handlers.";
+
   private ExceptionMessages() {
   }
 

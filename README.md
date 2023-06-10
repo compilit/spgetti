@@ -5,16 +5,17 @@ of this library might suggest, this 'mediator' pattern implementation is meant t
 manageable and
 easier to test. Why call it 'Spgetti' then? Because it's easier to remember than something like 'Unspgetti' :D
 
-The framework consists of several libraries, all split-up into API and implementations, so you'll never have to rely on
+The framework consists of several libraries, all split-up into API's and implementations, so you'll never have to rely
+on
 any implementation stuff for your code to compile.
 
 The purpose of this library is to take away all the boilerplate code that is connected to
 implementing this pattern. This library tries to achieve several goals:
 
-1. Make your application as loosely coupled as possible.
+1. Make your application more loosely coupled
 2. Separate concerns
 3. Make your code easier to test
-4. (Optionally) Help enforce CQRS. Which is more important in bigger projects
+4. (Optionally) Help enforce CQRS. Which could be an asset in larger projects
 
 ### Installation
 
@@ -168,30 +169,6 @@ public class ExampleController {
 }
 ```
 
-### For those paying attention
-
-If you've looked at my implementation you might have noticed that there is no difference in
-behaviour between the
-CommandHandlers and the QueryHandlers. Both have the ability to return values. It is true that
-returning a value from a
-Command enables the user of this library to still break with CQRS and perform reading operations
-inside CommandHandlers.
-This, however, is always possible. I considered this and decided that it was more important to
-provide an API that is
-consistent with other frameworks and libraries. Most writing operations return either the written
-object, the ID of the
-written object or some other kind of result. The whole point of having a separate Query and Command
-class is for reading
-purposes only. This way it should be clear to the reader that some operation is only about reading
-or about writing.
-
-For any operation, whether it is retrieving, changing or storing data, you'll write a Request<R> implementation, where R
-represents the return type. This Request<R> encapsulates the data required for the operations. The operation is an
-implementation of RequestHandler<T, R> where T is the exact implementation of the request, and R the return type.
-
-Once this RequestHandler is turned into a registered bean and you use the RequestDispatcher to dispatch your Request,
-the framework will take over an provide you with the correct return type after initiating the logic.
-
 ### Without CQRS
 
 The basic API you need is the spgetti-api, which is implemented in the spgetti-core and used in the
@@ -246,8 +223,31 @@ to do anything. The framework will take care of it all.
 All Handlers will automatically emit the events described in the overridden onAccepted and onFinished methods of each
 handler. If you don't override these default methods, no events shall be emitted on these life cycle hooks.
 Due to type erasure, the framework will not see any difference between TestEvent\<One\> and TestEvent\<Two\>, keep that
-in
-mind.
+in mind.
+
+#### For those paying attention
+
+If you've looked at my implementation you might have noticed that there is no difference in
+behaviour between the
+CommandHandlers and the QueryHandlers. Both have the ability to return values. It is true that
+returning a value from a
+Command enables the user of this library to still break with CQRS and perform reading operations
+inside CommandHandlers.
+This, however, is always possible. I considered this and decided that it was more important to
+provide an API that is
+consistent with other frameworks and libraries. Most writing operations return either the written
+object, the ID of the
+written object or some other kind of result. The whole point of having a separate Query and Command
+class is for reading
+purposes only. This way it should be clear to the reader that some operation is only about reading
+or about writing.
+
+For any operation, whether it is retrieving, changing or storing data, you'll write a Request<R> implementation, where R
+represents the return type. This Request<R> encapsulates the data required for the operations. The operation is an
+implementation of RequestHandler<T, R> where T is the exact implementation of the request, and R the return type.
+
+Once this RequestHandler is turned into a registered bean and you use the RequestDispatcher to dispatch your Request,
+the framework will take over an provide you with the correct return type after initiating the logic.
 
 
 
